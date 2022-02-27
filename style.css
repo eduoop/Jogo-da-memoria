@@ -42,7 +42,6 @@ body {
 }
 
 .front {
-    background: url('images/0.jpg');
     transform: rotateY(-180deg);
 }
 
