@@ -1,5 +1,6 @@
 (function(){
     var images = []
+    var flippedCards= []
 
     for(var i = 0; i < 16; i++) {
         var img = {
@@ -10,7 +11,10 @@
     }
     startGame()
 
+    
     function startGame() {
+        flippedCards = []
+        images = randomSort(images)
         var frontFaces = document.getElementsByClassName('front')
         for(var i = 0; i < 16; i++) {
             var card = document.querySelector(`#card${i}`)
@@ -21,14 +25,42 @@
 
             frontFaces[i].style.background = "url('"+ images[i].src +"')"
             frontFaces[i].setAttribute("id", images[i].id)
-            console.log(frontFaces[i].id)
         }
     }
 
+    function randomSort(oldArray) {
+        // console.log(Math.floor(Math.random()*11))
+        var newArray = []
+
+        while(newArray.length !== oldArray.length) {
+            var ing = Math.floor(Math.random()*oldArray.length)
+            if(newArray.indexOf(oldArray[ing]) < 0) {
+                newArray.push(oldArray[ing])
+            }
+        }
+        return newArray
+    }
+
     function flipCard() {
-        var faces = this.getElementsByClassName("face")
-        faces[0].classList.toggle("fliped")
-        faces[1].classList.toggle("fliped")
-        console.log( faces[0].classList)
+        if(flippedCards.length < 2) {
+            var faces = this.getElementsByClassName("face")
+
+            if(faces[0].classList.length > 2) {
+                return;
+            }
+
+            faces[0].classList.toggle("fliped")
+            faces[1].classList.toggle("fliped")
+
+            flippedCards.push(this)
+        } else {
+            flippedCards[0].childNodes[1].classList.toggle("fliped")
+            flippedCards[0].childNodes[3].classList.toggle("fliped")
+            flippedCards[1].childNodes[1].classList.toggle("fliped")
+            flippedCards[1].childNodes[3].classList.toggle("fliped")
+
+            flippedCards = []
+        }
+
     }
 }());
