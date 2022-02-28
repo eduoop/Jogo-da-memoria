@@ -5,6 +5,7 @@
 
 body {
     background: #555;
+    text-align: center;
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -56,4 +57,17 @@ body {
 
 .back.fliped {
     transform: rotateY(180deg);
+}
+
+#modalGameOver {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: -2;
+}
+
+#imgGameOver {
+    margin-top: 100px;
 }

@@ -1,6 +1,7 @@
 (function(){
     var images = []
     var flippedCards= []
+    var modalGameOver = document.querySelector("#modalGameOver")
 
     for(var i = 0; i < 16; i++) {
         var img = {
@@ -26,6 +27,9 @@
             frontFaces[i].style.background = "url('"+ images[i].src +"')"
             frontFaces[i].setAttribute("id", images[i].id)
         }
+
+        modalGameOver.style.zIndex = -2
+        modalGameOver.removeEventListener('click', startGame, false)
     }
 
     function randomSort(oldArray) {
@@ -59,8 +63,15 @@
             flippedCards[1].childNodes[1].classList.toggle("fliped")
             flippedCards[1].childNodes[3].classList.toggle("fliped")
 
+            gameOver()
+
             flippedCards = []
         }
 
+    }
+
+    function gameOver() {
+        modalGameOver.style.zIndex = 10
+        modalGameOver.addEventListener('click', startGame,false)
     }
 }());
