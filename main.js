@@ -1,7 +1,9 @@
 (function(){
+    var  matches = 0
     var images = []
     var flippedCards= []
     var modalGameOver = document.querySelector("#modalGameOver")
+    var imgMatchSing = document.querySelector('#imgMatchSing')
 
     for(var i = 0; i < 16; i++) {
         var img = {
@@ -14,10 +16,18 @@
 
     
     function startGame() {
+
+        matches = 0
+
         flippedCards = []
         images = randomSort(images)
         var frontFaces = document.getElementsByClassName('front')
+        var backFaces = document.getElementsByClassName('back')
+
         for(var i = 0; i < 16; i++) {
+            frontFaces[i].classList.remove('fliped', 'match')
+            backFaces[i].classList.remove('fliped', 'match')
+
             var card = document.querySelector(`#card${i}`)
             card.style.left = i % 8 === 0 ? 5 + 'px' : i % 8 * 165 + 5 + 'px'
             card.style.top = i < 8 ? '5px' : '250px'
@@ -57,13 +67,30 @@
             faces[1].classList.toggle("fliped")
 
             flippedCards.push(this)
+
+            if(flippedCards.length === 2) {
+                if(flippedCards[0].childNodes[3].id === flippedCards[1].childNodes[3].id) {
+                    flippedCards[0].childNodes[1].classList.toggle("match")
+                    flippedCards[0].childNodes[3].classList.toggle("match")
+                    flippedCards[1].childNodes[1].classList.toggle("match")
+                    flippedCards[1].childNodes[3].classList.toggle("match")
+
+                    matchCardSing()
+
+                    matches++
+
+                    flippedCards = []
+
+                    if(matches === 8) {
+                        gameOver()
+                    }
+                }
+            }
         } else {
             flippedCards[0].childNodes[1].classList.toggle("fliped")
             flippedCards[0].childNodes[3].classList.toggle("fliped")
             flippedCards[1].childNodes[1].classList.toggle("fliped")
             flippedCards[1].childNodes[3].classList.toggle("fliped")
-
-            gameOver()
 
             flippedCards = []
         }
@@ -73,5 +100,17 @@
     function gameOver() {
         modalGameOver.style.zIndex = 10
         modalGameOver.addEventListener('click', startGame,false)
+    }
+
+    function matchCardSing() {
+        imgMatchSing.style.zIndex = 1;
+        imgMatchSing.style.top = 150 + 'px';
+        imgMatchSing.style.opacity = 0;
+
+        setTimeout(() => {
+            imgMatchSing.style.zIndex = -1;
+            imgMatchSing.style.top = 250 + 'px';
+            imgMatchSing.style.opacity = 1 ;
+        }, 1500)
     }
 }());
